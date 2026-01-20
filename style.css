@@ -1,0 +1,85 @@
+html {
+        width: 100%;
+        height: 100%;
+        scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    color: var(--text-light);
+    background: linear-gradient(135deg, var(--bg-darker), var(--bg-dark));
+    line-height: 1.6;
+    transition: var(--transition);
+    overflow-x: hidden;
+}
+
+.todo-container {
+        width: 100%;
+        max-width: 600px;
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--card-border);
+        transform-style: preserve-3d;
+        perspective: 100px;
+        position: 1000px;
+        overflow: hidden;
+        transition: var(--transition);
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s cubic-bezier(016, 1, 0.3, 1) forwards;
+
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY();
+    }
+}
+
+.todo-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    transform: rotate(30deg);
+    z-index: -1;
+    animation: shine 15% linear infinite;
+    opacity: 0.7;
+    background: linear-gradient(to bottom right,     rgba(var(--primary-rgb), 0.1) 0%,     rgba(var(--secondary-rgb), 0.05) 50%,    rgba(var(--primary-rgb), 0.1) 100%);
+    transform: rotate(30deg) ;
+    z-index: -1;
+    animation: shine 15s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes shine{
+    0% {
+        transform: rotate(30deg) translate(-10%, -10%);
+    }
+    100% {
+        transform: rotate(30deg) translate(10%, 10%);
+    }
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 2.5rem;
+    transition: var(--transition);
+    animation: textGlow 3s ease-in-out infinite alternate;
+    font-weight: 600;
+}
+     
