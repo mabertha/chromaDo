@@ -24,6 +24,47 @@
             <div class="theme-btn" style="background: linear-gradient(135deg, #6c5ce7,#fd79e8);" data-theme="purple-pink" style="--i: 0"></div>
             <div class="theme-btn" style="background: linear-gradient(135deg, #e17055, #fdcb6e);" data-theme="orannge-yellow" style="--i: 0"></div>
         </div>
+
+        <div class="add-task">
+            <input type="text" id="new-task" placeholder="Add a new task..." autocomplete="off">
+            <button id="add-btn"><i class="fas fa-plus"></i> Add</button>
+        </div>
+
+        <div class="datetime-inputs">
+            <input type="date" id="task-date" class="date-input">
+            <input type="time" id="task-time" class="time-input">
+        </div>
+        <div class="task-stats">
+            <div id="total-task"> 0 task</div>
+            <div id="completed-task"> 0 Completed</div>
+        </div>
+
+        <div class="task-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="task-list" id="task-list">
+            <div class="empty-state">
+                <i class="fas fa-tasks"></i>
+                <h3> No tasks</h3>
+                <p>Add your first task to get started</p>
+            </div>    
+        </div>
+
+        <div class="priority-selector-container">
+            <div class="priority-selector">
+                <span class="priority-label">Priority</span>
+                <div class="priority-options">
+                     <div class="priority-options" data-priority="High"></div>
+                     <div class="priority-options" data-priority="Medium"></div>
+                     <div class="priority-options" data-priority="Low"></div>
+                </div>
+
+                <div class="priority-slider" id="priority-slider"></div>
+            </div>
+        </div>
         </div>
 
         <script src="script.js"></script>
