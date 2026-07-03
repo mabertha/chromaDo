@@ -122,3 +122,62 @@ function addTask() {
     input.value = '';
     input.focus();
 }
+
+/* ===== RENDER TASKS ===== */
+function renderTasks() {
+    const list = document.getElementById('task-list');
+
+    let filtered = tasks.filter(t => {
+        if (currentFilter === 'active') return !t.completed;
+        if (currentFilter === 'completed') return t.completed;
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-${currentFilter === 'completed' ? 'check-double' : 'tasks'}"></i>
+                <h3>${currentFilter === 'completed' ? 'No completed tasks' : currentFilter === 'active' ? 'No active tasks' : 'No tasks yet'}</h3>
+                <p>${currentFilter === 'all' ? 'Add your first task to get started' : ''}</p>
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = filtered.map(task => createTaskHTML(task)).join('');
+
+    // Bind task-level events
+    list.querySelectorAll('.task-checkbox').forEach(cb => {
+        cb.addEventListener('click', () => toggleComplete(parseInt(cb.dataset.id)));
+    });
+    list.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => startEdit(parseInt(btn.dataset.id)));
+    });
+    list.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => deleteTask(parseInt(btn.dataset.id)));
+    });
+}
+
+function createTaskHTML(task) {
+    const isOverdue = isTaskOverdue(task);
+    const priorityClass = task.priority.toLowerCase();
+    const dateLabel = formatDateLabel(task.date, task.time);
+
+    return `
+    <div class="task-item priority-${priorityClass} ${task.completed ? 'completed' : ''}" data-id="${task.id}">
+        <div class="task-checkbox" data-id="${task.id}" role="checkbox" aria-checked="${task.completed}" tabindex="0">
+            ${task.completed ? '<i class="fas fa-check"></i>' : ''}
+        </div>
+        <div class="task-body">
+            <div class="task-text">${escapeHTML(task.text)}</div>
+            <div class="task-meta">
+                ${dateLabel ? `<span class="task-date-label"><i class="fas fa-calendar-alt"></i> ${dateLabel}</span>` : ''}
+                <span class="priority-badge ${priorityClass}">${task.priority}</span>
+                ${isOverdue && !task.completed ? '<span class="overdue-badge"><i class="fas fa-exclamation-circle"></i> Overdue</span>' : ''}
+            </div>
+        </div>
+        <div class="task-actions">
+            <button class="edit-btn" data-id="${task.id}" title="Edit task"><i class="fas fa-pen"></i></button>
+            <button class="delete-btn" data-id="${task.id}" title="Delete task"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>`;
+}
