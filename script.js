@@ -244,3 +244,42 @@ function updateStats() {
     document.getElementById('total-task').textContent = `${total} task${total !== 1 ? 's' : ''}`;
     document.getElementById('completed-task').textContent = `${completed} Completed`;
 }
+
+/* ===== HELPERS ===== */
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
+function isTaskOverdue(task) {
+    if (!task.date || task.completed) return false;
+    const now = new Date();
+    const taskDate = task.time
+        ? new Date(`${task.date}T${task.time}`)
+        : new Date(task.date + 'T23:59:59');
+    return taskDate < now;
+}
+
+function formatDateLabel(date, time) {
+    if (!date) return '';
+    const d = new Date(date + 'T00:00:00');
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    let dayLabel;
+    if (d.toDateString() === today.toDateString()) {
+        dayLabel = 'Today';
+    } else if (d.toDateString() === tomorrow.toDateString()) {
+        dayLabel = 'Tomorrow';
+    } else {
+        dayLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    return time ? `${dayLabel}, ${time}` : dayLabel;
+}
