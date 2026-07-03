@@ -66,3 +66,26 @@ function bindEvents() {
         updateStats();
     });
 }
+
+/* ===== THEME & DARK MODE ===== */
+function applyTheme(theme) {
+    activeTheme = theme;
+    localStorage.setItem('activeTheme', theme);
+    document.body.dataset.activeTheme = theme;
+
+    // sync active class on buttons
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+}
+
+function applyDarkMode() {
+    document.body.classList.toggle('light-mode', !darkMode);
+    const icon = document.querySelector('#mode-toggle i');
+    icon.className = darkMode ? 'fas fa-moon' : 'fas fa-sun';
+}
+
+function setDefaultDate() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('task-date').value = today;
+}
