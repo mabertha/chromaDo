@@ -89,3 +89,36 @@ function setDefaultDate() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('task-date').value = today;
 }
+
+/* ===== ADD TASK ===== */
+function addTask() {
+    const input = document.getElementById('new-task');
+    const text = input.value.trim();
+    if (!text) {
+        input.focus();
+        input.style.borderColor = 'var(--priority-high)';
+        setTimeout(() => input.style.borderColor = '', 1000);
+        return;
+    }
+
+    const dateVal = document.getElementById('task-date').value;
+    const timeVal = document.getElementById('task-time').value;
+
+    const task = {
+        id: Date.now(),
+        text,
+        completed: false,
+        priority: currentPriority,
+        date: dateVal,
+        time: timeVal,
+        createdAt: new Date().toISOString()
+    };
+
+    tasks.unshift(task);
+    saveTasks();
+    renderTasks();
+    updateStats();
+
+    input.value = '';
+    input.focus();
+}
