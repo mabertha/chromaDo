@@ -235,3 +235,12 @@ function startEdit(id) {
         if (e.key === 'Escape') renderTasks(); // cancel
     });
 }
+
+/* ===== STATS ===== */
+function updateStats() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+
+    document.getElementById('total-task').textContent = `${total} task${total !== 1 ? 's' : ''}`;
+    document.getElementById('completed-task').textContent = `${completed} Completed`;
+}
