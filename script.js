@@ -181,3 +181,57 @@ function createTaskHTML(task) {
         </div>
     </div>`;
 }
+
+/* ===== TASK ACTIONS ===== */
+function toggleComplete(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    task.completed = !task.completed;
+    saveTasks();
+    renderTasks();
+    updateStats();
+}
+
+function deleteTask(id) {
+    const item = document.querySelector(`.task-item[data-id="${id}"]`);
+    if (item) {
+        item.style.transition = 'all 0.25s ease';
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(30px)';
+        setTimeout(() => {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+            updateStats();
+        }, 250);
+    }
+}
+
+function startEdit(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const item = document.querySelector(`.task-item[data-id="${id}"]`);
+    const textEl = item.querySelector('.task-text');
+    const currentText = task.text;
+
+    textEl.innerHTML = `<input type="text" class="task-edit-input" value="${escapeHTML(currentText)}">`;
+    const editInput = textEl.querySelector('.task-edit-input');
+    editInput.focus();
+    editInput.select();
+
+    const save = () => {
+        const newText = editInput.value.trim();
+        if (newText && newText !== currentText) {
+            task.text = newText;
+            saveTasks();
+        }
+        renderTasks();
+    };
+
+    editInput.addEventListener('blur', save);
+    editInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') save();
+        if (e.key === 'Escape') renderTasks(); // cancel
+    });
+}
